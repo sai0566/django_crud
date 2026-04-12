@@ -1,7 +1,7 @@
 # from django.shortcuts import render,redirect
 
 # # Create your views here.
-# from app.models import employee
+# from crudoperations.app.models import employee
 
 # from django.views import View
 
@@ -19,7 +19,7 @@
 #         return render(request,'details.html',context)
     
 # #Create
-# from app.form import employee_form
+# from crudoperations.app.form import employee_form
 # class employee_create(View):
 #     def get(self,request):
 #         form=employee_form()
@@ -54,10 +54,10 @@
 #         return redirect('details')
 
 from django.shortcuts import render
-from app.models import employee
+from crudoperations.app.models import employee
 from django.views.generic import ListView,CreateView,DeleteView,UpdateView
 from django.urls import reverse_lazy
-from app.form import employee_form
+from crudoperations.app.form import employee_form
 
 from django.db.models import Q
 
