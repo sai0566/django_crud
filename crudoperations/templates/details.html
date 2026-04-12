@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employee Details</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #eef2f3, #dfe9f3);
+        margin: 0;
+        padding: 20px;
+      }
+      
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+      
+      table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+      
+      th {
+        background-color: #4caf50;
+        color: white;
+        padding: 12px;
+        text-transform: uppercase;
+      }
+      
+      td {
+        padding: 12px;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+      }
+      
+      tr:hover {
+        background-color: #f5f5f5;
+      }
+      
+      .btn {
+        padding: 6px 12px;
+        text-decoration: none;
+        color: white;
+        border-radius: 5px;
+        font-size: 14px;
+      }
+      
+      .update-btn {
+        background-color: #2196f3;
+      }
+      
+      .update-btn:hover {
+        background-color: #0b7dda;
+      }
+      
+      .delete-btn {
+        background-color: #f44336;
+      }
+      
+      .delete-btn:hover {
+        background-color: #d32f2f;
+      }
+      
+      .create-btn {
+        display: block;
+        width: 150px;
+        margin: 20px auto;
+        padding: 10px;
+        text-align: center;
+        background-color: #4caf50;
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      
+      .create-btn:hover {
+        background-color: #45a049;
+      }
+      #searchbar{
+        text-align: center;
+      }
+      #searchbar input{
+        width: 500px;
+        border-radius: 9px;
+        padding: 9px;
+        outline: none;
+        border: 1px solid white;
+      }
+      #submit{
+        background-color:#2196f3;
+        padding: 9px;
+        width: 80px;
+        border-radius: 9px;
+        color: white;
+        outline: none;
+        border: 1px solid #2196f3;
+
+      }
+      a button{
+        background-color:#f44336;
+        padding: 9px;
+        width: auto;
+        border-radius: 9px;
+        color: white;
+        outline: none;
+        border: 1px solid #f44336;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Employee Details</h1>
+    <form method="get" id="searchbar">
+      <input type="search" name="src" id="src" placeholder="Search by id or name" autocomplete="off">
+      <button type="submit" value="submit" id="submit">submit</button> <a href="{% url 'details' %}"><button>Reset all Filters</button></a>
+    </form>
+
+    <table>
+      <tr>
+        <th>emp_id</th>
+        <th>emp_name</th>
+        <th>emp_dept</th>
+        <th>emp_mobile</th>
+        <th>emp_salary</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+
+      {% for x in data %}
+        <tr>
+          <td>{{ x.emp_id }}</td>
+          <td>{{ x.emp_name }}</td>
+          <td>{{ x.emp_dept }}</td>
+          <td>{{ x.emp_mobile }}</td>
+          <td>{{ x.emp_salary }}</td>
+          <td>
+            <a href="{% url 'update' x.id %}" class="btn update-btn">Update</a>
+          </td>
+          <td>
+            <a href="{% url 'delete' x.id %}" class="btn delete-btn">Delete</a>
+          </td>
+        </tr>
+        {% empty %}
+<tr>
+    <td colspan="7" style="text-align:center; color:red; font-weight:bold;">
+        🔍 No data found
+    </td>
+</tr>
+      {% endfor %}
+    </table>
+    <div style="text-align:center; margin-top:20px;">
+      {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      {% endif %}
+      <span style="margin: 0 10px;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+      {% endif %}
+    </div>
+    <a href="{% url 'create' %}" class="create-btn">+ Add Employee</a>
+  </body>
+</html>
