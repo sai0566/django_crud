@@ -54,7 +54,7 @@ MIDDLEWARE = [
     
 ]
 
-ROOT_URLCONF = 'crudoperations.urls'
+ROOT_URLCONF = 'crudoperations.crudoperations.urls'
 import os
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
