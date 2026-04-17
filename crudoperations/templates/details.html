@@ -19,16 +19,16 @@
             min-height: 100vh;
         }
 
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 20px;
             font-size: 32px;
-        }
-
-        .page-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
         }
 
         #searchbar {
@@ -87,17 +87,17 @@
             background-color: #d32f2f;
         }
 
+        /* Desktop table */
         .table-wrapper {
-            width: 100%;
-            overflow-x: auto;
+            display: block;
             background: white;
             border-radius: 14px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         table {
             width: 100%;
-            min-width: 850px;
             border-collapse: collapse;
             background: white;
         }
@@ -108,7 +108,6 @@
             padding: 14px 12px;
             text-transform: uppercase;
             font-size: 14px;
-            white-space: nowrap;
         }
 
         td {
@@ -116,11 +115,39 @@
             text-align: center;
             border-bottom: 1px solid #ddd;
             font-size: 15px;
-            white-space: nowrap;
         }
 
         tr:hover {
             background-color: #f9f9f9;
+        }
+
+        /* Mobile cards hidden on desktop */
+        .mobile-cards {
+            display: none;
+        }
+
+        .employee-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .employee-card p {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .employee-card p strong {
+            color: #111;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
         }
 
         .btn {
@@ -131,6 +158,7 @@
             font-size: 14px;
             display: inline-block;
             transition: 0.3s ease;
+            text-align: center;
         }
 
         .update-btn {
@@ -232,7 +260,7 @@
         }
 
         /* Mobile */
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             body {
                 padding: 12px;
             }
@@ -241,19 +269,20 @@
                 font-size: 22px;
             }
 
-            th,
-            td {
-                padding: 12px 10px;
-                font-size: 13px;
+            .table-wrapper {
+                display: none;
             }
 
-            .btn {
-                padding: 7px 10px;
-                font-size: 13px;
+            .mobile-cards {
+                display: block;
             }
 
-            .pagination {
-                gap: 8px;
+            .card-actions {
+                flex-direction: column;
+            }
+
+            .card-actions .btn {
+                width: 100%;
             }
 
             .pagination a,
@@ -284,6 +313,7 @@
             <a href="{% url 'details' %}" class="reset-btn">Reset All Filters</a>
         </form>
 
+        <!-- Desktop Table -->
         <div class="table-wrapper">
             <table>
                 <tr>
@@ -316,6 +346,28 @@
                 </tr>
                 {% endfor %}
             </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="mobile-cards">
+            {% for x in data %}
+            <div class="employee-card">
+                <p><strong>Employee ID:</strong> {{ x.emp_id }}</p>
+                <p><strong>Name:</strong> {{ x.emp_name }}</p>
+                <p><strong>Department:</strong> {{ x.emp_dept }}</p>
+                <p><strong>Mobile:</strong> {{ x.emp_mobile }}</p>
+                <p><strong>Salary:</strong> {{ x.emp_salary }}</p>
+
+                <div class="card-actions">
+                    <a href="{% url 'update' x.id %}" class="btn update-btn">Update</a>
+                    <a href="{% url 'delete' x.id %}" class="btn delete-btn">Delete</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="employee-card">
+                <p class="no-data">🔍 No data found</p>
+            </div>
+            {% endfor %}
         </div>
 
         <div class="pagination">
